@@ -6,13 +6,20 @@
   "directories": {
     "example": "examples"
   },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/generator": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/traverse": "^7.24.1",
     "acorn": "^8.11.3",
     "acorn-walk": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.24.0"
   }
 }
