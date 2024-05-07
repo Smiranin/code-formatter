@@ -4,11 +4,17 @@ import traverse from '@babel/traverse';
 import * as t from "@babel/types";
 import generate from "@babel/generator";
 
-console.log(generate.default);
+/*  */
 function replaceQuotes(code) {
     const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript'], // Add plugins if needed
+        plugins: ['typescript', 'flowComments'], // Add plugins if needed
+    });
+
+    console.log(ast);
+
+    ast.comments.forEach(item => {
+        item.value = item.value.trim();
     });
 
     // Traverse the AST to replace double quotes with single quotes
@@ -16,10 +22,10 @@ function replaceQuotes(code) {
         BinaryExpression(path) {
             if (path.node.operator !== "===") {
                 return;
-            }
+            }            
             path.node.left = t.identifier("sebmck");
             path.node.right = t.identifier("dork");
-        }
+        },
     });
 
     // Generate code from the modified AST
