@@ -1,32 +1,24 @@
 import fs from 'fs';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
-import * as t from "@babel/types";
 import generate from "@babel/generator";
+import formatter from "./src/comments-plugin.js"
 
 /*  */
 function replaceQuotes(code) {
     const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'flowComments'], // Add plugins if needed
+        plugins: ['typescript'], // Add plugins if needed
     });
 
-    console.log(ast);
+    //console.log(ast);
 
     ast.comments.forEach(item => {
         item.value = item.value.trim();
     });
 
     // Traverse the AST to replace double quotes with single quotes
-    traverse.default(ast, {
-        BinaryExpression(path) {
-            if (path.node.operator !== "===") {
-                return;
-            }            
-            path.node.left = t.identifier("sebmck");
-            path.node.right = t.identifier("dork");
-        },
-    });
+    traverse.default(ast, formatter);
 
     // Generate code from the modified AST
     const { code: formattedCode } = generate.default(ast);
